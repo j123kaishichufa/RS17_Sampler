@@ -1,10 +1,13 @@
 package jwxsampler;
 
+import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 import java.util.ListIterator;
+import java.util.Map;
 
 import org.hyperic.sigar.ProcCpu;
 import org.hyperic.sigar.ProcMem;
@@ -18,7 +21,7 @@ public class ProcessSampler
 	private long pid;
 	private String WINDOWS_PATTERN = "Exe.Name.ct=";
 	private String LINUX_PATTERN = "";
-	
+	DecimalFormat df = new DecimalFormat("#.0000"); //formatting the double value
 		
 	public ProcessSampler(Sigar sigar, String processName) throws SigarException 
 	{
@@ -30,9 +33,11 @@ public class ProcessSampler
 		this.pid = finder.findSingleProcess(query);	
 	}
 	
-	public void getCpuUsage()
+	public Map<String, String> getCpuUsage()
 	{
 		ProcCpu procCpu = null;
+		Map<String, String> resultMap = new HashMap<String, String>();
+		
 		
 		try {
 			procCpu = sigar.getProcCpu(pid);
@@ -55,12 +60,17 @@ public class ProcessSampler
 		
 		double cpuUse= procCpu.getPercent();
 		//double cpuUse = procCpu.getTotal()*100/( (procCpu.getLastTime()-procCpu.getStartTime())*1.0 );
-		System.out.printf("PID: %d, cpuuse= %.4f\n", pid, cpuUse);
+		//System.out.printf("PID: %d, cpuuse= %.4f\n", pid, cpuUse);
+		resultMap.put("ProcessCpuUsed", df.format(cpuUse));
+		
+		return resultMap;
 	}
 	
-	public void getMemUsage()
+	public Map<String, String> getMemUsage()
 	{
+		Map<String, String> resultMap = new HashMap<String, String>();
 		ProcMem procMem = null;
+		
 		try {
 			procMem = sigar.getProcMem(pid);
 		} catch (SigarException e) {
@@ -81,13 +91,10 @@ public class ProcessSampler
 		}
 		
 		long memUse = procMem.getSize();
+		resultMap.put("processVMemUsed", Long.toString(memUse));
+		
+		return resultMap;
 	}
 	
-	public List<String> getResult()
-	{
-		List<String> strList = new ArrayList<>();
-		
-		
-		return strList;
-	}
+	
 }
