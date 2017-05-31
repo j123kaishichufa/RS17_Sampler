@@ -8,23 +8,25 @@ import org.apache.log4j.Logger;
 import org.hyperic.sigar.Sigar;
 import org.hyperic.sigar.SigarException;
 
-public class OutSampler 
-{	
+public class OutSampler
+{
 	public static long getTime()
 	{
 		long ms =  System.currentTimeMillis();
 		return ms;
 	}
-		
-	public static void main(String[] args) throws SigarException, InterruptedException 
+
+	public static void main(String[] args) throws SigarException, InterruptedException
 	{
 		Logger logger = Logger.getLogger(Object.class);
-		String processName="eclipse";
+		String processName = args[0];
 		Sigar sigar = new Sigar();
 		Boolean isStart = true;
 		SystemSampler systemSampler = new SystemSampler(sigar);
 		ProcessSampler processSampler = new ProcessSampler(sigar, processName);
-		
+
+		System.out.println("process name: " + processName);
+
 		while(true)
 		{
 			Map<String, String> resultMap = new HashMap<String, String>();
@@ -36,7 +38,7 @@ public class OutSampler
 			resultMap.putAll(map2);
 			resultMap.putAll(map3);
 			resultMap.putAll(map4);
-			
+
 			//logging it
 			String logString = "";
 			String logTitle = "";
@@ -48,11 +50,11 @@ public class OutSampler
 				logTitle += ";";
 				logString += value;
 				logString += ";";
-				
+
 			}
 			//remove the last fenhao
-			logTitle = logTitle.substring(0, logTitle.length() - 1); 
-			logString = logString.substring(0, logString.length() - 1); 
+			logTitle = logTitle.substring(0, logTitle.length() - 1);
+			logString = logString.substring(0, logString.length() - 1);
 			if(isStart)
 			{
 				//System.out.println(logTitle);
@@ -63,10 +65,10 @@ public class OutSampler
 			logger.info(logString);
 
 			Thread.sleep(1000);
-			
-			
 
-			
+
+
+
 		}
 	}
 }
