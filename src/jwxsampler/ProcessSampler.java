@@ -15,30 +15,31 @@ import org.hyperic.sigar.Sigar;
 import org.hyperic.sigar.SigarException;
 import org.hyperic.sigar.ptql.ProcessFinder;
 
-public class ProcessSampler 
+public class ProcessSampler
 {
 	private Sigar sigar;
 	private long pid;
 	private String WINDOWS_PATTERN = "Exe.Name.ct=";
 	private String LINUX_PATTERN = "";
 	DecimalFormat df = new DecimalFormat("#.0000"); //formatting the double value
-		
-	public ProcessSampler(Sigar sigar, String processName) throws SigarException 
+
+	public ProcessSampler(Sigar sigar, String processName) throws SigarException
 	{
 		// TODO Auto-generated constructor stub
 		this.sigar = sigar;
 		//get pid by process name
 		String query = WINDOWS_PATTERN + processName;
 		ProcessFinder finder = new ProcessFinder(sigar);
-		this.pid = finder.findSingleProcess(query);	
+		this.pid = finder.findSingleProcess(query);
+		System.out.printf("pid: %d\n", this.pid);
 	}
-	
+
 	public Map<String, String> getCpuUsage()
 	{
 		ProcCpu procCpu = null;
 		Map<String, String> resultMap = new HashMap<String, String>();
-		
-		
+
+
 		try {
 			procCpu = sigar.getProcCpu(pid);
 		} catch (SigarException e) {
@@ -46,7 +47,7 @@ public class ProcessSampler
 			e.printStackTrace();
 			System.out.println("ERROR: sigar.getProcCpu(pid) failed...");
 		}
-		
+
 		try {
 			if(procCpu != null)
 			{
@@ -57,20 +58,20 @@ public class ProcessSampler
 			e.printStackTrace();
 			System.out.println("ERROR: procCpu.gather(sigar, pid) failed...");
 		}
-		
+
 		double cpuUse= procCpu.getPercent();
 		//double cpuUse = procCpu.getTotal()*100/( (procCpu.getLastTime()-procCpu.getStartTime())*1.0 );
 		//System.out.printf("PID: %d, cpuuse= %.4f\n", pid, cpuUse);
 		resultMap.put("ProcessCpuUsed", df.format(cpuUse));
-		
+
 		return resultMap;
 	}
-	
+
 	public Map<String, String> getMemUsage()
 	{
 		Map<String, String> resultMap = new HashMap<String, String>();
 		ProcMem procMem = null;
-		
+
 		try {
 			procMem = sigar.getProcMem(pid);
 		} catch (SigarException e) {
@@ -78,7 +79,7 @@ public class ProcessSampler
 			e.printStackTrace();
 			System.out.println("ERROR: sigar.getProcMem(pid) failed ...");
 		}
-		
+
 		try {
 			if(procMem != null)
 			{
@@ -89,12 +90,12 @@ public class ProcessSampler
 			e.printStackTrace();
 			System.out.println("ERROR: procMem.gather(sigar, pid) failed ...");
 		}
-		
+
 		long memUse = procMem.getSize();
 		resultMap.put("processVMemUsed", Long.toString(memUse));
-		
+
 		return resultMap;
 	}
-	
-	
+
+
 }
