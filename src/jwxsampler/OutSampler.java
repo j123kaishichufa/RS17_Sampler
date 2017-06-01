@@ -10,14 +10,31 @@ import org.hyperic.sigar.SigarException;
 
 public class OutSampler
 {
-	public static long getTime()
+	private final long clockdifference;
+	private final long offset;
+	private final TimeUnit timeUnit;
+	
+	public OutSampler()
 	{
-		long ms =  System.currentTimeMillis();
-		return ms;
+		this.timeUnit = TimeUnit.NANOSECONDS;
+		this.clockdifference = System.nanoTime() - (TimeUnit.MILLISECONDS.toNanos(System.currentTimeMillis()));
+		this.offset = this.clockdifference;
+	}
+	
+	//get current timestamp
+	public long getTime()
+	{
+		long ns;
+		ns = this.timeUnit.convert(System.nanoTime() - this.offset,  TimeUnit.NANOSECONDS);
+		return ns;
+		
 	}
 
 	public static void main(String[] args) throws SigarException, InterruptedException
 	{
+		//mainly initialize the timer
+		OutSampler outSampler = new OutSampler();
+		
 		Logger logger = Logger.getLogger(Object.class);
 		String processName = args[0];
 		Sigar sigar = new Sigar();
@@ -29,11 +46,13 @@ public class OutSampler
 
 		while(true)
 		{
+			long timestamp = outSampler.getTime();
 			Map<String, String> resultMap = new HashMap<String, String>();
 			Map<String, String> map1 = systemSampler.getCpuUsage();
 			Map<String, String> map2 = systemSampler.getMemUsage();
 			Map<String, String> map3 = processSampler.getCpuUsage();
 			Map<String, String> map4 = processSampler.getMemUsage();
+			resultMap.put("timestamp", Long.toString(timestamp));
 			resultMap.putAll(map1);
 			resultMap.putAll(map2);
 			resultMap.putAll(map3);
