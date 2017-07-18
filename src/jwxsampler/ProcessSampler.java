@@ -62,7 +62,7 @@ public class ProcessSampler
 		double cpuUse= procCpu.getPercent();
 		//double cpuUse = procCpu.getTotal()*100/( (procCpu.getLastTime()-procCpu.getStartTime())*1.0 );
 		//System.out.printf("PID: %d, cpuuse= %.4f\n", pid, cpuUse);
-		resultMap.put("ProcessCpuUsed", df.format(cpuUse));
+		//resultMap.put("ProcessCpuUsed", df.format(cpuUse));
 
 		return resultMap;
 	}
@@ -92,7 +92,7 @@ public class ProcessSampler
 		}
 
 		long memUse = procMem.getSize();
-		resultMap.put("processVMemUsed", Long.toString(memUse));
+		//resultMap.put("processVMemUsed", Long.toString(memUse));
 
 		return resultMap;
 	}

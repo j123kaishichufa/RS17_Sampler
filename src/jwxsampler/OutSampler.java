@@ -52,12 +52,17 @@ public class OutSampler
 			Map<String, String> map2 = systemSampler.getMemUsage();
 			Map<String, String> map3 = processSampler.getCpuUsage();
 			Map<String, String> map4 = processSampler.getMemUsage();
+			Map<String, String> map5 = systemSampler.getDiskUsage();
+			Map<String, String> map6 = systemSampler.getNetworkUsage();
+	
 			resultMap.put("timestamp", Long.toString(timestamp));
 			resultMap.putAll(map1);
 			resultMap.putAll(map2);
 			resultMap.putAll(map3);
 			resultMap.putAll(map4);
-
+			resultMap.putAll(map5);
+			resultMap.putAll(map6);
+			
 			//logging it
 			String logString = "";
 			String logTitle = "";
