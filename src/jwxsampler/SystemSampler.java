@@ -8,6 +8,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.concurrent.TimeUnit;
 
+import org.apache.log4j.varia.StringMatchFilter;
 import org.hyperic.sigar.CpuPerc;
 import org.hyperic.sigar.DiskUsage;
 import org.hyperic.sigar.FileSystem;
@@ -37,36 +38,40 @@ public class SystemSampler
 	public long getLastReadBytes(String devname)
 	{
 		long readBytes = 0;
-		if(!lastDiskUsageMap.isEmpty())
+		String res = lastDiskUsageMap.get(devname + "_readbytes");
+		if(res != null)
 		{
-			 readBytes = Long.parseLong(lastDiskUsageMap.get(devname + "_readbytes"));
+			 readBytes = Long.parseLong(res);
 		}
 		return readBytes;
 	}
 	public long getLastReads(String devname)
 	{
 		long reads = 0;
-		if(!lastDiskUsageMap.isEmpty())
+		String res = lastDiskUsageMap.get(devname + "_reads");
+		if(res != null)
 		{
-			reads = Long.parseLong(lastDiskUsageMap.get(devname + "_reads"));
+			reads = Long.parseLong(res);
 		}
 		return reads;
 	}
 	public long getLastWriteBytes(String devname)
 	{
 		long writeBytes = 0;
-		if(!lastDiskUsageMap.isEmpty())
+		String res = lastDiskUsageMap.get(devname + "_writebytes");
+		if(res != null)
 		{
-			writeBytes = Long.parseLong(lastDiskUsageMap.get(devname + "_writebytes"));
+			writeBytes = Long.parseLong(res);
 		}
 		return writeBytes;
 	}
 	public long getLastWrites(String devname)
 	{
 		long writes = 0;
-		if(!lastDiskUsageMap.isEmpty())
+		String res = lastDiskUsageMap.get(devname + "_writes");
+		if(res != null)
 		{
-			writes = Long.parseLong(lastDiskUsageMap.get(devname + "_writes"));
+			writes = Long.parseLong(res);
 		}
 		return writes;
 	}
@@ -140,63 +145,70 @@ public class SystemSampler
 	public long getLastNetTxBytes(String intfName)
 	{
 		long txBytes = 0;
-		if(!lastNetworkUsageMap.isEmpty())
+		String res = lastNetworkUsageMap.get(intfName + "_txbytes");
+		if(res != null)
 		{
-			txBytes = Long.parseLong(lastNetworkUsageMap.get(intfName + "_txbytes"));
+			txBytes = Long.parseLong(res);
 		}
 		return txBytes;
 	}
 	public long getLastNetTxCarriers(String intfName)
 	{
 		long txCarrier = 0;
-		if(!lastNetworkUsageMap.isEmpty())
+		String res = lastNetworkUsageMap.get(intfName + "_txcarriers");
+		if(res != null)
 		{
-			txCarrier = Long.parseLong(lastNetworkUsageMap.get(intfName + "_txcarriers"));
+			txCarrier = Long.parseLong(res);
 		}
 		return txCarrier;
 	}
 	public long getLastNetTxCollisions(String intfName)
 	{
 		long txCollisions = 0;
-		if(!lastNetworkUsageMap.isEmpty())
+		String res = lastNetworkUsageMap.get(intfName + "_txcollisions");
+		if(res != null)
 		{
-			txCollisions = Long.parseLong(lastNetworkUsageMap.get(intfName + "_txcollisions"));
+			txCollisions = Long.parseLong(res);
 		}
 		return txCollisions;
 	}
 	public long getLastNetTxDropped(String intfName)
 	{
 		long txDropped = 0;
-		if(!lastNetworkUsageMap.isEmpty())
+		String res = lastNetworkUsageMap.get(intfName + "_txdropped");
+		if(res != null)
 		{
-			txDropped = Long.parseLong(lastNetworkUsageMap.get(intfName + "_txdropped"));
+			txDropped = Long.parseLong(res);
 		}
 		return txDropped;
 	}
 	public long getLastNetTxErrors(String intfName)
 	{
 		long txErrors = 0;
-		if(!lastNetworkUsageMap.isEmpty())
+		String res = lastNetworkUsageMap.get(intfName + "_txerrors");
+		if(res != null)
 		{
-			txErrors = Long.parseLong(lastNetworkUsageMap.get(intfName + "_txerrors"));
+			txErrors = Long.parseLong(res);
 		}
 		return txErrors;
 	}
 	public long getLastNetTxOverruns(String intfName)
 	{
 		long txOverruns = 0;
-		if(!lastNetworkUsageMap.isEmpty())
+		String res = lastNetworkUsageMap.get(intfName+ "_txoverruns");
+ 		if(res != null)
 		{
-			txOverruns = Long.parseLong(lastNetworkUsageMap.get(intfName+ "_txoverruns")) ;
+			txOverruns = Long.parseLong(res) ;
 		}
 		return txOverruns;
 	}
 	public long getLastNetTxPackets(String intfName)
 	{
 		long txPackets = 0;
-		if(!lastNetworkUsageMap.isEmpty())
+		String res = lastNetworkUsageMap.get(intfName + "_txpackets");
+		if(res != null)
 		{
-			txPackets = Long.parseLong(lastNetworkUsageMap.get(intfName + "_txpackets"));
+			txPackets = Long.parseLong(res);
 		}
 		return txPackets;
 	}
@@ -205,54 +217,60 @@ public class SystemSampler
 	public long getLastNetRxBytes(String intfName)
 	{
 		long rxBytes = 0;
-		if(!lastNetworkUsageMap.isEmpty())
+		String res = lastNetworkUsageMap.get(intfName + "_rxbytes");
+		if(res != null)
 		{
-			rxBytes = Long.parseLong(lastNetworkUsageMap.get(intfName + "_rxbytes"));
+			rxBytes = Long.parseLong(res);
 		}
 		return rxBytes;
 	}
 	public long getLastNetRxDropped(String intfName)
 	{
 		long rxDropped = 0;
-		if(!lastNetworkUsageMap.isEmpty())
+		String res = lastNetworkUsageMap.get(intfName + "_rxdropped");
+		if(res != null)
 		{
-			rxDropped = Long.parseLong(lastNetworkUsageMap.get(intfName + "_rxdropped"));
+			rxDropped = Long.parseLong(res);
 		}
 		return rxDropped;
 	}
 	public long getLastNetRxErrors(String intfName)
 	{
 		long rxErrors = 0;
-		if(!lastNetworkUsageMap.isEmpty())
+		String res = lastNetworkUsageMap.get(intfName + "_rxerrors"); 
+		if(res != null)
 		{
-			rxErrors = Long.parseLong(lastNetworkUsageMap.get(intfName + "_rxerrors") );
+			rxErrors = Long.parseLong(res);
 		}
 		return rxErrors;
 	}
 	public long getLastNetRxOverruns(String intfName)
 	{
 		long rxOverruns = 0;
-		if(!lastNetworkUsageMap.isEmpty())
+		String res = lastNetworkUsageMap.get(intfName + "_rxoverruns");
+		if(res != null)
 		{
-			rxOverruns = Long.parseLong(lastNetworkUsageMap.get(intfName + "_rxoverruns"));
+			rxOverruns = Long.parseLong(res);
 		}
 		return rxOverruns;
 	}
 	public long getLastNetRxFrames(String intfName)
 	{
 		long rxFrames = 0;
-		if(!lastNetworkUsageMap.isEmpty())
+		String res= lastNetworkUsageMap.get(intfName + "_rxframes");
+		if(res != null)
 		{
-			rxFrames = Long.parseLong(lastNetworkUsageMap.get(intfName + "_rxframes"));
+			rxFrames = Long.parseLong(res);
 		}
 		return rxFrames;
 	}
 	public long getLastNetRxPackets(String intfName)
 	{
 		long rxPackets = 0;
-		if(!lastNetworkUsageMap.isEmpty())
+		String res = lastNetworkUsageMap.get(intfName + "_rxpackets");
+		if(res != null)
 		{
-			rxPackets = Long.parseLong(lastNetworkUsageMap.get(intfName + "_rxpackets"));
+			rxPackets = Long.parseLong(res);
 		}
 		return rxPackets;
 	}
@@ -296,21 +314,21 @@ public class SystemSampler
 				double rxOverrunsPerSecond = (rxOverruns - getLastNetRxOverruns(intfName)) / (double)TimeUnit.SECONDS.convert(timeDifference, TimeUnit.NANOSECONDS);
 				double rxPacketsPerSecond = (rxPackets - getLastNetRxPackets(intfName)) / (double)TimeUnit.SECONDS.convert(timeDifference, TimeUnit.NANOSECONDS);
 
-				resultMap.put(interfaceStat + "_speed", Long.toString(speed));
-				resultMap.put(intfName + "_txBytesPerS", df.format(txBytesPerSecond));
-				resultMap.put(intfName + "_txCarrierPerS", df.format(txCarrierPerSecond));
-				resultMap.put(intfName + "_txCollisionPerS", df.format(txCollisionsPerSecond));
-				resultMap.put(intfName + "_txDroppedPerS", df.format(txDroppedPerSecond));
-				resultMap.put(intfName + "_txErrorsPerS", df.format(txErrorsPerSecond));
-				resultMap.put(intfName + "_txOverrunsPerS", df.format(txOverrunsPerSecond));
-				resultMap.put(intfName + "_txPacketsPerS", df.format(txPacketsPerSecond));
+				resultMap.put(intfName + "_speed", Long.toString(speed));
+				resultMap.put(intfName + "_txBytes", df.format(txBytesPerSecond));
+				resultMap.put(intfName + "_txCarriers", df.format(txCarrierPerSecond));
+				resultMap.put(intfName + "_txCollisions", df.format(txCollisionsPerSecond));
+				resultMap.put(intfName + "_txDropped", df.format(txDroppedPerSecond));
+				resultMap.put(intfName + "_txErrors", df.format(txErrorsPerSecond));
+				resultMap.put(intfName + "_txOverruns", df.format(txOverrunsPerSecond));
+				resultMap.put(intfName + "_txPackets", df.format(txPacketsPerSecond));
 				
-				resultMap.put(intfName + "_rxBytesPerS", df.format(rxBytesPerSecond));
-				resultMap.put(intfName + "_rxDroppedPerS", df.format(rxDroppedPerSecond));
-				resultMap.put(intfName + "_rxErrorsPerS", df.format(rxErrorsPerSecond));
-				resultMap.put(intfName + "_rxFramePerS", df.format(rxFramePerSecond));
-				resultMap.put(intfName + "_rxOverrunsPerS", df.format(rxOverrunsPerSecond));
-				resultMap.put(intfName + "_rxPacketsPerS", df.format(rxPacketsPerSecond));
+				resultMap.put(intfName + "_rxBytes", df.format(rxBytesPerSecond));
+				resultMap.put(intfName + "_rxDropped", df.format(rxDroppedPerSecond));
+				resultMap.put(intfName + "_rxErrors", df.format(rxErrorsPerSecond));
+				resultMap.put(intfName + "_rxFrames", df.format(rxFramePerSecond));
+				resultMap.put(intfName + "_rxOverruns", df.format(rxOverrunsPerSecond));
+				resultMap.put(intfName + "_rxPackets", df.format(rxPacketsPerSecond));
 				
 				lastNetworkUsageMap.clear();
 				lastNetworkUsageMap.put(intfName + "_txbytes", Long.toString(txBytes));
@@ -349,6 +367,7 @@ public class SystemSampler
 			for(FileSystem fs: fslist)
 			{
 				String devname = fs.getDevName();
+				System.out.println(devname);
 				
 				DiskUsage diskUsage = sigar.getDiskUsage(devname);
 				double queue = diskUsage.getQueue();
@@ -365,10 +384,10 @@ public class SystemSampler
 				
 				//resultMap.put("deviceName", devname);
 				resultMap.put(devname + "_queue", df.format(queue));
-				resultMap.put(devname + "_readbytesPerS", df.format(readBytesPerSecond));
-				resultMap.put(devname + "_readsPerS", df.format(readsPerSecond));
-				resultMap.put(devname + "_writebytesPerS", df.format(writeBytesPerSecond) );
-				resultMap.put(devname + "_writesPerS", df.format(writesPerSecond));
+				resultMap.put(devname + "_readbytes", df.format(readBytesPerSecond));
+				resultMap.put(devname + "_reads", df.format(readsPerSecond));
+				resultMap.put(devname + "_writebytes", df.format(writeBytesPerSecond) );
+				resultMap.put(devname + "_writes", df.format(writesPerSecond));
 				resultMap.put(devname + "_servicetime", df.format(serviceTime));
 				
 				lastDiskUsageMap.clear();

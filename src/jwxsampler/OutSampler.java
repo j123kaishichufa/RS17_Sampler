@@ -52,7 +52,7 @@ public class OutSampler
 			Map<String, String> map2 = systemSampler.getMemUsage();
 			Map<String, String> map3 = processSampler.getCpuUsage();
 			Map<String, String> map4 = processSampler.getMemUsage();
-			Map<String, String> map5 = systemSampler.getDiskUsage();
+			//Map<String, String> map5 = systemSampler.getDiskUsage();
 			Map<String, String> map6 = systemSampler.getNetworkUsage();
 	
 			resultMap.put("timestamp", Long.toString(timestamp));
@@ -60,7 +60,7 @@ public class OutSampler
 			resultMap.putAll(map2);
 			resultMap.putAll(map3);
 			resultMap.putAll(map4);
-			resultMap.putAll(map5);
+			//resultMap.putAll(map5);
 			resultMap.putAll(map6);
 			
 			//logging it
@@ -71,9 +71,9 @@ public class OutSampler
 				String key = entry.getKey();
 				String value = entry.getValue();
 				logTitle += key;
-				logTitle += ";";
+				logTitle += ",";
 				logString += value;
-				logString += ";";
+				logString += ",";
 
 			}
 			//remove the last fenhao
